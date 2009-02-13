@@ -3,24 +3,14 @@ require 'test_helper'
 class PostTest < ActiveSupport::TestCase
 
   should_have_many :comments
-
-  context "a valid post" do
+  should_require_attributes :title, :body
+  
+  context "a published post" do
     setup do
-      @post = Post.new(:title => 'title', :body => 'body')
-      assert_valid @post
+      @post = Factory.build(:post, :published => true)
     end
-
-    should "be invalid after removing the title" do
-      @post.title = nil
-      assert !@post.valid?
-      assert !@post.errors.on(:title).blank?
-    end
-
-    should "be invalid after removing the body" do
-      @post.body = nil
-      assert !@post.valid?
-      assert !@post.errors.on(:body).blank?
-    end
+    #only uses the created post for this require
+    should_require_attributes :body
   end
 
 end

@@ -5,7 +5,7 @@ class CommentsControllerTest < ActionController::TestCase
 
   context "on POST create with a post id and valid comment parameters" do
     setup do
-      @post = Post.create(:title => 'title', :body => 'body')
+      @post = Factory(:post)
       post :create, :post_id => @post.to_param,
                     :comment => { :title => 'title', :body => 'body' }
     end

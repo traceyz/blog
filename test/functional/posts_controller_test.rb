@@ -4,15 +4,28 @@ class PostsControllerTest < ActionController::TestCase
   should_route :get, '/posts', :action => :index
 
   include PostsHelper
+  
+  context 'on GET to index with published and unpubleihed posts' do
+    setup do
+      @post1 = Factory(:post, {:published => true})
+      @post2 = Factory(:post, {:published => false})
+      get :index
+    end
+    
+    should_respond_with :success
+    should_render_template :index
+    
+    should "only show published posts" do
+      assert assigns(:posts).include?(@post1)
+      assert ! assigns(:posts).include?(@post2)     
+    end
+    
+  end
 
   context 'on GET to index' do
     setup do
-      @post1 = Post.create({:title => "Post 1",
-                            :body => "Body 1",
-                            :created_at => 10.minutes.ago})
-      @post2 = Post.create({:title => "Post 2",
-                            :body => "Body 2",
-                            :created_at => 5.minutes.ago})
+      @post1 = Factory(:post, {:created_at => 10.minutes.ago, :published => true})
+      @post2 = Factory(:post, {:created_at => 5.minutes.ago, :published => true})
       get :index
     end
 
@@ -51,9 +64,8 @@ class PostsControllerTest < ActionController::TestCase
 
   context "on GET to show for a published post" do
     setup do
-      @post = Post.create({:title => 'Title', :body => 'Body', :published => true})
-      @comment = @post.comments.create({:title => 'Comment Title',
-                                        :body  => 'Comment Body'})
+      @post = Factory(:post, {:title => 'Title', :body => 'Body', :published => true})
+      @comment = Factory(:comment, {:title => 'Comment Title', :body => 'Comment Body', :post => @post})
       get :show, :id => @post
     end
 
