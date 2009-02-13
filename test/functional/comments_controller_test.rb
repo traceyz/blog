@@ -41,4 +41,16 @@ class CommentsControllerTest < ActionController::TestCase
       assert_select '#errorExplanation'
     end
   end
+  
+  context "on DELETE should delete the comment" do
+    setup do
+      @comment = Factory(:comment)
+      delete :destroy, :post_id => @comment.post, :id => @comment.to_param
+    end
+    should "delete the comment" do
+      assert ! Comment.exists?(@comment.id)
+    end
+    should_redirect_to "posts_path"
+    
+  end
 end

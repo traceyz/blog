@@ -32,6 +32,10 @@ Rails::Initializer.run do |config|
              :lib => 'will_paginate', 
              :source => 'http://gems.github.com', 
              :version => '~> 2.3.6'
+  config.gem "thoughtbot-clearance",
+             :lib => 'clearance',
+             :source => 'http://gems.github.com',
+             :version => '>= 0.4.6'
   
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -59,6 +63,7 @@ Rails::Initializer.run do |config|
     :session_key => "_#{PROJECT_NAME}_session",
     :secret      => SESSION_KEY
   }
+  
 
   # Use the database for sessions instead of the cookie-based default,
   # which shouldn't be used to store highly confidential information
@@ -73,4 +78,6 @@ Rails::Initializer.run do |config|
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
 end
+
+DO_NOT_REPLY = "donotreply@hotmail.com"
 

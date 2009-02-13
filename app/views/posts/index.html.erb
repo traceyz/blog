@@ -5,3 +5,5 @@ Hello from the index.html.erb template
 <%= render :partial => 'post', :collection => @posts %>
 
 <%= link_to 'Create a new post', new_post_path %>
+
+<% content_for :title, "Posts" %>
